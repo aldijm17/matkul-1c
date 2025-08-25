@@ -3,19 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Meta tags untuk PWA -->
+    <meta name="theme-color" content="#0d1117">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ScheduleOS">
   <title>Matkul 1C - Jadwal Kuliah</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#161b22">
   <style>
     body {
       background-color: #0d1117;
       color: #c9d1d9;
       font-family: "Fira Code", monospace;
-      padding: 10px;
+      padding: 20px;
     }
     h1 {
       color: #58a6ff;
-      font-size: clamp(20px, 4vw, 28px);
     }
     a {
       display: inline-block;
@@ -26,19 +32,21 @@
       padding: 8px 12px;
       border-radius: 6px;
       font-weight: bold;
-      font-size: clamp(14px, 3vw, 16px);
+    }
+    a:hover {
+      background: #2ea043;
     }
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 10px;
       background-color: #161b22;
       border: 1px solid #30363d;
       border-radius: 6px;
       overflow: hidden;
-      font-size: clamp(12px, 2.5vw, 14px);
     }
     th, td {
-      padding: 8px;
+      padding: 12px 15px;
       border-bottom: 1px solid #30363d;
       text-align: left;
     }
@@ -56,35 +64,10 @@
       padding: 5px 10px;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
     }
-    @media (max-width: 600px) {
-      table, thead, tbody, th, td, tr {
-        display: block;
-        width: 100%;
-      }
-      thead {
-        display: none;
-      }
-      tr {
-        margin-bottom: 15px;
-        border-bottom: 1px solid #30363d;
-        padding: 10px;
-      }
-      td {
-        text-align: right;
-        position: relative;
-        padding-left: 50%;
-      }
-      td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        width: 45%;
-        text-align: left;
-        color: #58a6ff;
-        font-weight: bold;
-      }
+    button:hover {
+      background: #ff9b85;
     }
   </style>
 </head>
@@ -110,13 +93,5 @@
   <script src="env.js"></script>
   <script type="module" src="firebase.js"></script>
   <script type="module" src="script.js"></script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js").then(() => {
-        console.log("Service Worker registered");
-      });
-    }
-  </script>
 </body>
 </html>
