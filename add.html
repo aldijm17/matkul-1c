@@ -1,30 +1,94 @@
-[file name]: add.html
-[file content begin]
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Tambah/Edit Jadwal</title>
+  <title>Tambah/Edit Jadwal Kuliah</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    input[type="time"] {
-      padding: 8px;
-      margin: 5px 0;
-      width: 100%;
-      box-sizing: border-box;
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: "Fira Code", monospace;
+    }
+    .card {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+    }
+    .form-label {
+      font-weight: 600;
+      color: #c9d1d9;
+    }
+    .form-control, .form-select {
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #58a6ff;
+      box-shadow: 0 0 0 0.2rem rgba(88,166,255,0.25);
+    }
+    .btn-primary {
+      background-color: #238636;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #2ea043;
+    }
+    h3 {
+      color: #58a6ff;
     }
   </style>
 </head>
 <body>
-  <h2>Tambah/Edit Jadwal Kuliah</h2>
-  <form id="jadwalForm">
-    <input type="text" id="hari" placeholder="Hari" required><br>
-    <input type="text" id="matkul" placeholder="Mata Kuliah" required><br>
-    <input type="time" id="waktu_masuk" required><br>
-    <input type="time" id="waktu_keluar" required><br>
-    <input type="text" id="dosen" placeholder="Dosen" required><br>
-    <input type="text" id="ruang" placeholder="Ruang"><br>
-    <button type="submit">Simpan</button>
-  </form>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card p-4">
+          <h3 class="text-center mb-4">Tambah/Edit Jadwal Kuliah</h3>
+          <form id="jadwalForm">
+            <div class="mb-3">
+              <label for="hari" class="form-label">Hari</label>
+              <select id="hari" class="form-select" required>
+                <option value="">Pilih Hari</option>
+                <option>Senin</option>
+                <option>Selasa</option>
+                <option>Rabu</option>
+                <option>Kamis</option>
+                <option>Jumat</option>
+                <option>Sabtu</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="matkul" class="form-label">Mata Kuliah</label>
+              <input type="text" id="matkul" class="form-control" placeholder="Masukkan mata kuliah" required>
+            </div>
+            <div class="mb-3">
+              <label for="dosen" class="form-label">Dosen</label>
+              <input type="text" id="dosen" class="form-control" placeholder="Nama dosen pengajar" required>
+            </div>
+            <div class="mb-3">
+              <label for="ruang" class="form-label">Ruang</label>
+              <input type="text" id="ruang" class="form-control" placeholder="Contoh: B101">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="waktu_masuk" class="form-label">Waktu Masuk</label>
+                <input type="time" id="waktu_masuk" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="waktu_keluar" class="form-label">Waktu Keluar</label>
+                <input type="time" id="waktu_keluar" class="form-control" required>
+              </div>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">💾 Simpan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="env.js"></script>
   <script type="module" src="firebase.js"></script>
@@ -43,7 +107,6 @@
     const id = params.get("id");
 
     if (id) {
-      // ambil data utk edit
       (async () => {
         const docRef = doc(db, "jadwal", id);
         const docSnap = await getDoc(docRef);
@@ -53,22 +116,14 @@
           document.getElementById("matkul").value = data.matkul;
           document.getElementById("dosen").value = data.dosen;
           document.getElementById("ruang").value = data.ruang || '';
-          
-          // Set waktu manual (HH:MM)
-          if (data.waktu_masuk) {
-            document.getElementById("waktu_masuk").value = data.waktu_masuk;
-          }
-          
-          if (data.waktu_keluar) {
-            document.getElementById("waktu_keluar").value = data.waktu_keluar;
-          }
+          document.getElementById("waktu_masuk").value = data.waktu_masuk || '';
+          document.getElementById("waktu_keluar").value = data.waktu_keluar || '';
         }
       })();
     }
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      
       const data = {
         hari: document.getElementById("hari").value,
         matkul: document.getElementById("matkul").value,
@@ -77,7 +132,6 @@
         waktu_masuk: document.getElementById("waktu_masuk").value,
         waktu_keluar: document.getElementById("waktu_keluar").value
       };
-
       try {
         if (id) {
           await updateDoc(doc(db, "jadwal", id), data);
@@ -93,4 +147,3 @@
   </script>
 </body>
 </html>
-[file content end]

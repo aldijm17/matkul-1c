@@ -1,25 +1,64 @@
-[file name]: index.html
-[file content begin]
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matkul 1C - Jadwal Kuliah</title>
-  <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: "Fira Code", monospace;
+      padding: 20px;
+    }
+    h1 {
+      color: #58a6ff;
+    }
+    a {
+      display: inline-block;
+      margin-bottom: 15px;
+      text-decoration: none;
+      background: #238636;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    a:hover {
+      background: #2ea043;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 10px;
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      overflow: hidden;
     }
     th, td {
-      padding: 10px;
+      padding: 12px 15px;
+      border-bottom: 1px solid #30363d;
       text-align: left;
-      border: 1px solid #ddd;
     }
     th {
-      background-color: #f2f2f2;
+      background-color: #161b22;
+      color: #58a6ff;
+    }
+    tr:hover {
+      background-color: #21262d;
+    }
+    button {
+      background: #f78166;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background: #ff9b85;
     }
   </style>
 </head>
@@ -47,4 +86,3 @@
   <script type="module" src="script.js"></script>
 </body>
 </html>
-[file content end]
