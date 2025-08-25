@@ -1,3 +1,5 @@
+[file name]: index.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,18 +7,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matkul 1C - Jadwal Kuliah</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
   <h1>📚 Jadwal Kuliah Matkul 1C</h1>
   
   <a href="add.html">➕ Tambah Jadwal</a>
-  <table border="1" id="jadwalTable">
+  <table id="jadwalTable">
     <thead>
       <tr>
         <th>Hari</th>
         <th>Mata Kuliah</th>
-        <th>Jam</th>
+        <th>Waktu Masuk</th>
+        <th>Waktu Keluar</th>
         <th>Dosen</th>
+        <th>Ruang</th>
         <th>Aksi</th>
       </tr>
     </thead>
@@ -28,3 +47,4 @@
   <script type="module" src="script.js"></script>
 </body>
 </html>
+[file content end]

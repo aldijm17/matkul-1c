@@ -1,16 +1,28 @@
+[file name]: add.html
+[file content begin]
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>Tambah/Edit Jadwal</title>
+  <style>
+    input[type="time"] {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
   <h2>Tambah/Edit Jadwal Kuliah</h2>
   <form id="jadwalForm">
     <input type="text" id="hari" placeholder="Hari" required><br>
     <input type="text" id="matkul" placeholder="Mata Kuliah" required><br>
-    <input type="text" id="jam" placeholder="Jam" required><br>
+    <input type="time" id="waktu_masuk" required><br>
+    <input type="time" id="waktu_keluar" required><br>
     <input type="text" id="dosen" placeholder="Dosen" required><br>
+    <input type="text" id="ruang" placeholder="Ruang"><br>
     <button type="submit">Simpan</button>
   </form>
 
@@ -18,7 +30,13 @@
   <script type="module" src="firebase.js"></script>
   <script type="module">
     import { db } from "./firebase.js";
-    import { collection, addDoc, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import { 
+      collection, 
+      addDoc, 
+      doc, 
+      getDoc, 
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
     const form = document.getElementById("jadwalForm");
     const params = new URLSearchParams(window.location.search);
@@ -33,28 +51,46 @@
           const data = docSnap.data();
           document.getElementById("hari").value = data.hari;
           document.getElementById("matkul").value = data.matkul;
-          document.getElementById("jam").value = data.jam;
           document.getElementById("dosen").value = data.dosen;
+          document.getElementById("ruang").value = data.ruang || '';
+          
+          // Set waktu manual (HH:MM)
+          if (data.waktu_masuk) {
+            document.getElementById("waktu_masuk").value = data.waktu_masuk;
+          }
+          
+          if (data.waktu_keluar) {
+            document.getElementById("waktu_keluar").value = data.waktu_keluar;
+          }
         }
       })();
     }
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      
       const data = {
         hari: document.getElementById("hari").value,
         matkul: document.getElementById("matkul").value,
-        jam: document.getElementById("jam").value,
-        dosen: document.getElementById("dosen").value
+        dosen: document.getElementById("dosen").value,
+        ruang: document.getElementById("ruang").value || 'Tidak disebutkan',
+        waktu_masuk: document.getElementById("waktu_masuk").value,
+        waktu_keluar: document.getElementById("waktu_keluar").value
       };
 
-      if (id) {
-        await updateDoc(doc(db, "jadwal", id), data);
-      } else {
-        await addDoc(collection(db, "jadwal"), data);
+      try {
+        if (id) {
+          await updateDoc(doc(db, "jadwal", id), data);
+        } else {
+          await addDoc(collection(db, "jadwal"), data);
+        }
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Error saving data:", error);
+        alert("Terjadi kesalahan saat menyimpan data.");
       }
-      window.location.href = "index.html";
     });
   </script>
 </body>
 </html>
+[file content end]
