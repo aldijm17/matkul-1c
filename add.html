@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tambah/Edit Jadwal</title>
+</head>
+<body>
+  <h2>Tambah/Edit Jadwal Kuliah</h2>
+  <form id="jadwalForm">
+    <input type="text" id="hari" placeholder="Hari" required><br>
+    <input type="text" id="matkul" placeholder="Mata Kuliah" required><br>
+    <input type="text" id="jam" placeholder="Jam" required><br>
+    <input type="text" id="dosen" placeholder="Dosen" required><br>
+    <button type="submit">Simpan</button>
+  </form>
+
+  <script src="env.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { collection, addDoc, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+    const form = document.getElementById("jadwalForm");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (id) {
+      // ambil data utk edit
+      (async () => {
+        const docRef = doc(db, "jadwal", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          document.getElementById("hari").value = data.hari;
+          document.getElementById("matkul").value = data.matkul;
+          document.getElementById("jam").value = data.jam;
+          document.getElementById("dosen").value = data.dosen;
+        }
+      })();
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        hari: document.getElementById("hari").value,
+        matkul: document.getElementById("matkul").value,
+        jam: document.getElementById("jam").value,
+        dosen: document.getElementById("dosen").value
+      };
+
+      if (id) {
+        await updateDoc(doc(db, "jadwal", id), data);
+      } else {
+        await addDoc(collection(db, "jadwal"), data);
+      }
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

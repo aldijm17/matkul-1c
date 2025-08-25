@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matkul 1C - Jadwal Kuliah</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>📚 Jadwal Kuliah Matkul 1C</h1>
+  
+  <a href="add.html">➕ Tambah Jadwal</a>
+  <table border="1" id="jadwalTable">
+    <thead>
+      <tr>
+        <th>Hari</th>
+        <th>Mata Kuliah</th>
+        <th>Jam</th>
+        <th>Dosen</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="jadwalList"></tbody>
+  </table>
+
+  <script src="env.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
