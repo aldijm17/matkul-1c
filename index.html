@@ -3,95 +3,459 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Meta tags untuk PWA -->
-    <meta name="theme-color" content="#0d1117">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ScheduleOS">
-  <title>Matkul 1C - Jadwal Kuliah</title>
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Meta tags untuk PWA -->
+  <meta name="theme-color" content="#0d1117">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ScheduleOS">
+  
+  <!-- Icons untuk berbagai perangkat -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  
+  <title>ScheduleOS - Jadwal Kuliah 1C</title>
+  
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --border-primary: #30363d;
+      --border-secondary: #21262d;
+      --text-primary: #c9d1d9;
+      --text-secondary: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #238636;
+      --accent-green-hover: #2ea043;
+      --accent-red: #f85149;
+      --accent-red-hover: #ff6b6b;
+      --accent-orange: #f78166;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
     body {
-      background-color: #0d1117;
-      color: #c9d1d9;
-      font-family: "Fira Code", monospace;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, #010409 100%);
+      color: var(--text-primary);
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Fira Code', Consolas, 'Courier New', monospace;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(88, 166, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(35, 134, 54, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 20px;
     }
-    h1 {
-      color: #58a6ff;
+
+    .header {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--shadow);
     }
-    a {
-      display: inline-block;
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+    }
+
+    .header h1 {
+      color: var(--accent-blue);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    .terminal-prompt {
+      font-family: inherit;
+      color: var(--accent-green);
+      font-size: 0.9rem;
       margin-bottom: 15px;
+    }
+
+    .add-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
-      background: #238636;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-green-hover));
       color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      border: 1px solid var(--accent-green);
+      box-shadow: 0 4px 16px rgba(35, 134, 54, 0.2);
     }
-    a:hover {
-      background: #2ea043;
+
+    .add-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(35, 134, 54, 0.3);
+      background: linear-gradient(135deg, var(--accent-green-hover), #3fb950);
+      color: white;
     }
+
+    .table-container {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--shadow);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
-      background-color: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      overflow: hidden;
     }
-    th, td {
-      padding: 12px 15px;
-      border-bottom: 1px solid #30363d;
-      text-align: left;
-    }
+
     th {
-      background-color: #161b22;
-      color: #58a6ff;
+      background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+      color: var(--accent-blue);
+      padding: 20px 15px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--border-primary);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    tr:hover {
-      background-color: #21262d;
+
+    td {
+      padding: 18px 15px;
+      border-bottom: 1px solid var(--border-primary);
+      vertical-align: middle;
     }
-    button {
-      background: #f78166;
-      color: #fff;
+
+    tr {
+      transition: background-color 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .day-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--accent-blue);
+      color: white;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .time-cell {
+      font-family: 'SF Mono', monospace;
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .subject-cell {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .professor-cell {
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .room-cell {
+      color: var(--accent-orange);
+      font-weight: 600;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
       border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
       cursor: pointer;
-      font-size: 14px;
+      font-family: inherit;
     }
-    button:hover {
-      background: #ff9b85;
+
+    .btn-edit {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .btn-edit:hover {
+      background: #79c0ff;
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .btn-delete {
+      background: var(--accent-red);
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background: var(--accent-red-hover);
+      transform: translateY(-1px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state .icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      color: var(--text-secondary);
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-primary);
+      border-top: 2px solid var(--accent-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 12px 8px;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* PWA Install Prompt */
+    .install-prompt {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 12px;
+      padding: 15px 20px;
+      box-shadow: 0 8px 32px var(--shadow);
+      display: none;
+      z-index: 1000;
+    }
+
+    .install-prompt.show {
+      display: block;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .install-btn {
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>📚 Jadwal Kuliah Matkul 1C</h1>
-  
-  <a href="add.html">➕ Tambah Jadwal</a>
-  <table id="jadwalTable">
-    <thead>
-      <tr>
-        <th>Hari</th>
-        <th>Mata Kuliah</th>
-        <th>Waktu Masuk</th>
-        <th>Waktu Keluar</th>
-        <th>Dosen</th>
-        <th>Ruang</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="jadwalList"></tbody>
-  </table>
+  <div class="container">
+    <header class="header">
+      <div class="terminal-prompt">user@scheduleos:~$ ./start_schedule_manager</div>
+      <h1>
+        <span>📚</span>
+        ScheduleOS
+      </h1>
+      <p>Sistema Manajemen Jadwal Kuliah 1C - v1.0.0</p>
+      <a href="add.html" class="add-btn">
+        <span>➕</span>
+        Tambah Jadwal Baru
+      </a>
+    </header>
+
+    <div class="table-container">
+      <table id="jadwalTable">
+        <thead>
+          <tr>
+            <th>Hari</th>
+            <th>Mata Kuliah</th>
+            <th>Waktu Masuk</th>
+            <th>Waktu Keluar</th>
+            <th>Dosen</th>
+            <th>Ruang</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="jadwalList">
+          <tr class="loading">
+            <td colspan="7">
+              <div class="spinner"></div>
+              Memuat data jadwal...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PWA Install Prompt -->
+  <div class="install-prompt" id="installPrompt">
+    <span>🚀 Install ScheduleOS untuk akses offline!</span>
+    <button class="install-btn" id="installBtn">Install</button>
+    <button class="install-btn" id="dismissBtn" style="background: var(--text-secondary);">Nanti</button>
+  </div>
 
   <script src="env.js"></script>
   <script type="module" src="firebase.js"></script>
   <script type="module" src="script.js"></script>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+
+    // PWA Install Prompt
+    let deferredPrompt;
+    const installPrompt = document.getElementById('installPrompt');
+    const installBtn = document.getElementById('installBtn');
+    const dismissBtn = document.getElementById('dismissBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installPrompt.classList.add('show');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+        deferredPrompt = null;
+        installPrompt.classList.remove('show');
+      }
+    });
+
+    dismissBtn.addEventListener('click', () => {
+      installPrompt.classList.remove('show');
+    });
+
+    // Hide install prompt when app is installed
+    window.addEventListener('appinstalled', () => {
+      installPrompt.classList.remove('show');
+      console.log('PWA was installed');
+    });
+  </script>
 </body>
 </html>
