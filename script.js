@@ -112,7 +112,7 @@ function renderSchedules(schedules) {
   `).join('');
 }
 
-// Add CSS for slide animation
+// Add CSS for slide animation and responsive table
 const style = document.createElement('style');
 style.textContent = `
   @keyframes slideInUp {
@@ -159,6 +159,117 @@ style.textContent = `
       opacity: 1;
       transform: translateX(0);
     }
+  }
+
+  /* Responsive Table with Horizontal Scroll */
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    margin: 0;
+    padding: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+  }
+
+  /* Custom scrollbar for better UX */
+  .table-container::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .table-container::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+  }
+
+  .table-container::-webkit-scrollbar-thumb {
+    background: var(--accent-blue);
+    border-radius: 4px;
+  }
+
+  .table-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-purple);
+  }
+
+  /* Table responsive styles */
+  .table-responsive {
+    min-width: 800px; /* Minimum width to ensure readability */
+  }
+
+  /* Improve table cell spacing on mobile */
+  @media (max-width: 768px) {
+    .table-container {
+      margin: -10px;
+      border-radius: 8px;
+    }
+    
+    .table-responsive {
+      min-width: 900px; /* Slightly wider on mobile for better readability */
+      font-size: 0.9rem;
+    }
+    
+    .table-responsive td,
+    .table-responsive th {
+      padding: 12px 8px;
+      white-space: nowrap;
+    }
+    
+    .subject-cell,
+    .professor-cell {
+      min-width: 150px;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .day-badge {
+      font-size: 0.8rem;
+      padding: 4px 8px;
+    }
+    
+    .action-buttons {
+      min-width: 140px;
+    }
+    
+    .btn {
+      font-size: 0.8rem;
+      padding: 6px 10px;
+    }
+  }
+
+  /* Mobile scroll hint */
+  .scroll-hint {
+    display: none;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    padding: 8px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    border: 1px solid var(--border-primary);
+  }
+
+  @media (max-width: 768px) {
+    .scroll-hint {
+      display: block;
+    }
+  }
+
+  /* Sticky header for better navigation on scroll */
+  .table-responsive thead {
+    position: sticky;
+    top: 0;
+    background: var(--bg-secondary);
+    z-index: 10;
+  }
+
+  .table-responsive thead th {
+    border-bottom: 2px solid var(--border-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 `;
 document.head.appendChild(style);
@@ -335,8 +446,9 @@ function showNotification(message, type = 'info', duration = 4000) {
   }, duration);
 }
 
-// Initialize with welcome message
+// Initialize with welcome message and setup responsive table
 document.addEventListener('DOMContentLoaded', () => {
+  setupResponsiveTable();
   loadJadwal();
   
   // Show welcome message if it's first visit
@@ -347,6 +459,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1500);
   }
 });
+
+// Setup responsive table wrapper
+function setupResponsiveTable() {
+  const table = document.querySelector('table');
+  if (table && !table.closest('.table-container')) {
+    // Create wrapper container
+    const container = document.createElement('div');
+    container.className = 'table-container';
+    
+    // Add responsive class to table
+    table.classList.add('table-responsive');
+    
+    // Wrap the table
+    table.parentNode.insertBefore(container, table);
+    container.appendChild(table);
+    
+    // Add scroll hint for mobile
+    const scrollHint = document.createElement('div');
+    scrollHint.className = 'scroll-hint';
+    scrollHint.innerHTML = '👈 Geser ke kiri/kanan untuk melihat semua kolom 👉';
+    container.parentNode.insertBefore(scrollHint, container.nextSibling);
+    
+    // Add scroll event listeners for better UX
+    let scrollTimeout;
+    container.addEventListener('scroll', () => {
+      container.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+      
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        container.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+      }, 150);
+    });
+    
+    // Show scroll indicator on mobile if content overflows
+    function checkScrollable() {
+      const scrollHintEl = document.querySelector('.scroll-hint');
+      if (scrollHintEl && container.scrollWidth > container.clientWidth) {
+        scrollHintEl.style.display = 'block';
+        scrollHintEl.innerHTML = '👈 Geser tabel untuk melihat semua kolom 👉';
+      } else if (scrollHintEl) {
+        scrollHintEl.style.display = 'none';
+      }
+    }
+    
+    // Check on resize
+    window.addEventListener('resize', checkScrollable);
+    setTimeout(checkScrollable, 100);
+  }
+}
 
 // Add keyboard shortcuts
 document.addEventListener('keydown', (e) => {
@@ -411,7 +572,7 @@ document.addEventListener('visibilitychange', () => {
     
     // Set up auto-refresh
     autoRefreshInterval = setInterval(() => {
-      loadJadwal();cccczczczc
+      loadJadwal();
     }, 5 * 60 * 1000); // 5 minutes
   }
 });
