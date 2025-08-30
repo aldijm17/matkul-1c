@@ -803,69 +803,6 @@
     }
 
     // Form submission
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      
-      const errors = validateForm();
-      if (errors.length > 0) {
-        showMessage("❌ " + errors[0], "error");
-        return;
-      }
-      
-      // Show loading with custom text
-      const loadingText = id ? "Memperbarui jadwal kuliah..." : "Menambahkan jadwal baru...";
-      setLoading(true, loadingText);
-      
-      const data = {
-        hari: document.getElementById("hari").value,
-        matkul: document.getElementById("matkul").value.trim(),
-        dosen: document.getElementById("dosen").value.trim(),
-        ruang: document.getElementById("ruang").value.trim() || 'Tidak disebutkan',
-        waktu_masuk: document.getElementById("waktu_masuk").value,
-        waktu_keluar: document.getElementById("waktu_keluar").value,
-        created_at: id ? undefined : new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-      
-      if (id) {
-        delete data.created_at;
-      }
-      
-      try {
-        const minLoadingTime = new Promise(resolve => setTimeout(resolve, 2000));
-        
-        const savePromise = id ? 
-          updateDoc(doc(db, "jadwal", id), data) : 
-          addDoc(collection(db, "jadwal"), data);
-        
-        await Promise.all([savePromise, minLoadingTime]);
-        
-        const successMsg = id ? 
-          "✅ Jadwal berhasil diperbarui!" : 
-          "✅ Jadwal baru berhasil ditambahkan!";
-        
-        showMessage(successMsg, "success");
-        
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 2000);
-        
-      } catch (error) {
-        console.error("Error saving data:", error);
-        setLoading(false);
-        
-        let errorMsg = "❌ Terjadi kesalahan: ";
-        if (error.code === 'permission-denied') {
-          errorMsg += "Tidak memiliki izin untuk menyimpan data";
-        } else if (error.code === 'unavailable') {
-          errorMsg += "Layanan tidak tersedia, coba lagi nanti";
-        } else {
-          errorMsg += error.message;
-        }
-        
-        showMessage(errorMsg, "error");
-      }
-    });
 
     // Helper functions
     function setLoading(loading, text = '') {
