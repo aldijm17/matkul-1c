@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceClass - Portal Informasi Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="beranda.css">
+    <link rel="stylesheet" href="style-navbar.css">
+</head>
+<body>
+    <!-- Ornamen Bintang -->
+    <div id="stars-container"></div>
+    
+    <!-- Ornamen Komet -->
+    <div class="comet" style="top: 15%; left: 5%; animation: cometFly 25s linear infinite;"></div>
+    <div class="comet" style="top: 65%; left: 10%; animation: cometFly 35s linear infinite; animation-delay: 5s;"></div>
+    
+    <!-- Ornamen Planet -->
+    <div class="planet" style="width: 120px; height: 120px; top: 10%; right: 10%; background: radial-gradient(circle, var(--space-pink), var(--space-purple));"></div>
+    <div class="planet" style="width: 80px; height: 80px; bottom: 15%; left: 5%; background: radial-gradient(circle, var(--space-teal), var(--neon-blue));"></div>
+    
+    <!-- Ornamen Satelit -->
+    <div class="satellite" style="top: 30%; right: 20%; animation-duration: 40s;"></div>
+    <div class="satellite" style="top: 70%; left: 15%; animation-duration: 35s; animation-delay: 10s;"></div>
+    
+    <!-- Ornamen Nebula -->
+    <div class="nebula" style="width: 300px; height: 300px; top: 20%; left: 15%; background: var(--neon-purple);"></div>
+    <div class="nebula" style="width: 250px; height: 250px; bottom: 10%; right: 10%; background: var(--neon-blue);"></div>
+    
+    <!-- Ornamen Astronot -->
+    <div class="astronaut" style="top: 40%; left: 8%;">👨‍🚀</div>
+    <div class="astronaut" style="bottom: 20%; right: 8%;">👩‍🚀</div>
+    
+    <!-- Ornamen UFO -->
+    <div class="ufo" style="top: 25%; animation: fly 30s linear infinite;"></div>
+    <div class="ufo" style="top: 75%; animation: fly 40s linear infinite; animation-delay: 15s;"></div>
+    
+    <!-- Ornamen Konstelasi -->
+    <div class="constellation" style="top: 20%; left: 25%;" id="constellation1"></div>
+    <div class="constellation" style="top: 60%; right: 20%;" id="constellation2"></div>
+
+    <!-- Navigation -->
+     <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-rocket"></i>SpaceClass
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color: var(--neon-blue);"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-section="beranda">
+                            <i class="fas fa-rocket rocket-icon"></i>
+                            <i class="fas fa-home me-1"></i> Beranda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="matkul">
+                            <i class="fas fa-rocket rocket-icon"></i>
+                            <i class="fas fa-book me-1"></i> Mata Kuliah
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="tugas">
+                            <i class="fas fa-rocket rocket-icon"></i>
+                            <i class="fas fa-tasks me-1"></i> Tugas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="keuangan">
+                            <i class="fas fa-rocket rocket-icon"></i>
+                            <i class="fas fa-money-bill-wave me-1"></i> Keuangan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-section="jadwal">
+                            <i class="fas fa-rocket rocket-icon"></i>
+                            <i class="fas fa-calendar-alt me-1"></i> Jadwal
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+                <h2>Portal Informasi Mahasiswa</h2>
+                <p>Selamat datang di portal informasi mahasiswa. Di sini Anda dapat melihat status keuangan, mata kuliah, daftar tugas, dan informasi penting lainnya.</p>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-number">Rp 2.450.000</div>
+                    <div class="stat-label">Total Pembayaran</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-number" id="total-matkul">0</div>
+                    <div class="stat-label">Mata Kuliah</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Tugas Aktif</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-number">14</div>
+                    <div class="stat-label">Hari Kuliah</div>
+                </div>
+            </div>
+            
+            <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs" id="infoTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="finance-tab" data-bs-toggle="tab" data-bs-target="#finance" type="button" role="tab">Status Keuangan</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="subjects-tab" data-bs-toggle="tab" data-bs-target="#subjects" type="button" role="tab">Mata Kuliah</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tasks-tab" data-bs-toggle="tab" data-bs-target="#tasks" type="button" role="tab">Daftar Tugas</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule" type="button" role="tab">Jadwal Kuliah</button>
+                </li>
+            </ul>
+            
+            <!-- Tab Content -->
+            <div class="tab-content" id="infoTabsContent">
+                <!-- Finance Tab -->
+                <div class="tab-pane fade show active" id="finance" role="tabpanel" tabindex="0">
+                    <div class="finance-card">
+                        <h3 class="section-title">Status Keuangan</h3>
+                        
+                        <div class="finance-item">
+                            <span class="finance-label">SPP Semester Ganjil 2023</span>
+                            <span class="finance-amount paid">Rp 1.200.000 <i class="fas fa-check-circle ms-1"></i></span>
+                        </div>
+                        
+                        <div class="finance-item">
+                            <span class="finance-label">Biaya Praktikum</span>
+                            <span class="finance-amount paid">Rp 450.000 <i class="fas fa-check-circle ms-1"></i></span>
+                        </div>
+                        
+                        <div class="finance-item">
+                            <span class="finance-label">Biaya Kemahasiswaan</span>
+                            <span class="finance-amount paid">Rp 300.000 <i class="fas fa-check-circle ms-1"></i></span>
+                        </div>
+                        
+                        <div class="finance-item">
+                            <span class="finance-label">Biaya Ujian</span>
+                            <span class="finance-amount pending">Rp 250.000 <i class="fas fa-clock ms-1"></i></span>
+                        </div>
+                        
+                        <div class="finance-item">
+                            <span class="finance-label">Total Tagihan</span>
+                            <span class="finance-amount">Rp 2.200.000</span>
+                        </div>
+                        
+                        <div class="finance-item">
+                            <span class="finance-label">Total Dibayar</span>
+                            <span class="finance-amount paid">Rp 1.950.000</span>
+                        </div>
+                        
+                        <div class="finance-item">
+                            <span class="finance-label">Sisa Tagihan</span>
+                            <span class="finance-amount pending">Rp 250.000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Subjects Tab -->
+                <div class="tab-pane fade" id="subjects" role="tabpanel" tabindex="0">
+                    <h3 class="section-title">Mata Kuliah Semester Ini</h3>
+                    <div id="matkul-container">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <span>Memuat data mata kuliah...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tasks Tab -->
+                <div class="tab-pane fade" id="tasks" role="tabpanel" tabindex="0">
+                    <h3 class="section-title">Tugas Mendatang</h3>
+                    <div class="task-list">
+                        <!-- Task Item 1 -->
+                        <div class="task-item">
+                            <div class="task-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title">Tugas Project Akhir Pemweb</div>
+                                <div class="task-meta">Pemrograman Web • Deadline: 2 Hari</div>
+                            </div>
+                            <span class="task-badge">Prioritas Tinggi</span>
+                        </div>
+                        
+                        <!-- Task Item 2 -->
+                        <div class="task-item">
+                            <div class="task-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title">Kuis Basis Data</div>
+                                <div class="task-meta">Basis Data Lanjut • Deadline: 5 Hari</div>
+                            </div>
+                            <span class="task-badge">Sedang</span>
+                        </div>
+                        
+                        <!-- Task Item 3 -->
+                        <div class="task-item">
+                            <div class="task-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title">Praktikum Jaringan</div>
+                                <div class="task-meta">Jaringan Komputer • Deadline: 7 Hari</div>
+                            </div>
+                            <span class="task-badge">Prioritas Rendah</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Schedule Tab -->
+                <div class="tab-pane fade" id="schedule" role="tabpanel" tabindex="0">
+                    <h3 class="section-title">Jadwal Kuliah</h3>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Hari</th>
+                                    <th>Mata Kuliah</th>
+                                    <th>Waktu</th>
+                                    <th>Ruangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schedule-body">
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <div class="loading-spinner">
+                                            <div class="spinner"></div>
+                                            <span>Memuat jadwal...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Class Details -->
+    <div class="modal fade" id="classModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalClassTitle">Detail Mata Kuliah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalClassBody">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Tentang Kami</a>
+                <a href="#">Kebijakan Privasi</a>
+                <a href="#">Syarat & Ketentuan</a>
+                <a href="#">Bantuan</a>
+                <a href="#">Kontak</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 SpaceClass - Portal Informasi Mahasiswa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase and Bootstrap Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="env.js"></script>
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="beranda.js"></script>
+     <script src="navbar-animation.js"></script>
+</body>
+</html>
