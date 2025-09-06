@@ -971,7 +971,7 @@
                         <div>
                             <div class="list-title">${task.tugas.toLowerCase()}</div>
                             <div class="list-meta">${task.matkul} • ${task.dosen} • ${task.deadline}</div>
-                            ${task.catatan ? `<div class="list-meta" style="font-style: italic; margin-top: 0.25rem;">${task.catatan}</div>` : ''}
+                            ${task.catatan ? `<div class="task-notes-preview">${task.catatan}</div>` : ''}
                         </div>
                         <div class="${actionClass}">${actionText}</div>
                     </div>
